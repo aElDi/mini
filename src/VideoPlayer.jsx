@@ -20,6 +20,7 @@ const fetchVideo = async (link) => {
   return await axios.request(params);
 };
 
+/** @type { import("react").FC } */
 export default function VideoPlayer() {
   const [error, setError] = useState(null);
   const [videoSrc, setVideoSrc] = useState();
