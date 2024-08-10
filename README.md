@@ -1,14 +1,14 @@
 ![Logo](./public/images/banner.png)
 
-# **MINI** - proxy youtube player
+# **MINI**
 
 A lightweight minimalistic player for watching YouTube videos through a proxy. MINI uses the cobalt.tools API to get a proxied video stream
 
 ## Known issues
 
-- #1
-  > [!CAUTION]
-  > [Cobalt.tools API](https://github.com/imputnet/cobalt/blob/current/docs/api.md#get-apistream) returns a stream for downloading, not a whole file, which makes it impossible to get its duration, control rewind with `Content-Range`. This can be fixed by downloading the video before viewing, but then the service needs a backend. I will try to fix it using [piped.video](https://piped.video/trending).
+- https://github.com/aElDi/mini/issues/1
+> [!CAUTION]
+> [Cobalt.tools API](https://github.com/imputnet/cobalt/blob/current/docs/api.md#get-apistream) returns a stream for downloading, not a whole file, which makes it impossible to get its duration, control rewind with `Content-Range`. This can be fixed by downloading the video before viewing, but then the service needs a backend. I will try to fix it using [piped.video](https://piped.video/trending).
 
 ## Local Development
 
