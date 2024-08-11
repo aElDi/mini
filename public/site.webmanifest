@@ -1,19 +1,32 @@
 {
     "name": "MINI",
+    "description": "⚡Fast client-side YouTube video player via piped.video and cobalt.tools APIs ⚡",
     "short_name": "MINI",
-    "icons": [
-        {
-            "src": "/android-chrome-192x192.png",
-            "sizes": "192x192",
-            "type": "image/png"
-        },
-        {
-            "src": "/android-chrome-512x512.png",
-            "sizes": "512x512",
-            "type": "image/png"
-        }
-    ],
+    "start_url": "/",
+    "lang": "en-US",
     "theme_color": "#C13442",
+    "display": "standalone",
     "background_color": "#efeeee",
-    "display": "standalone"
-}
+    "icons": [
+      {
+        "src": "./icons/android-chrome-192x192.png",
+        "sizes": "192x192",
+        "type": "image/png"
+      },
+      {
+        "src": "./icons/android-chrome-512x512.png",
+        "sizes": "512x512",
+        "type": "image/png"
+      },
+      {
+        "src": "./icons/Logo x64.png",
+        "sizes": "64x64",
+        "type": "image/png"
+      },
+      {
+        "src": "./icons/Logo x128.png",
+        "sizes": "128x128",
+        "type": "image/png"
+      }
+    ]
+  }
