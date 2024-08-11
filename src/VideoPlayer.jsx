@@ -11,7 +11,7 @@ import "@vidstack/react/player/styles/default/theme.css";
 import "@vidstack/react/player/styles/default/layouts/video.css";
 
 /** @type { import("react").FC } */
-export default function VideoPlayer() {
+export default function VideoPlayer({ provider }) {
   const [error, setError] = useState(null);
   const [video, setVideo] = useState(null);
   const [videoLink, setVideoLink] = useState("");
@@ -44,7 +44,12 @@ export default function VideoPlayer() {
     setError(null);
     if (event.key === "Enter" && videoLink) {
       setLoading(true);
-      loadVideoPiped(videoLink);
+      if (provider === "piped") {
+        loadVideoPiped(videoLink);
+      } else if (provider === "cobalt"){
+        loadVideoCobalt(videoLink);
+      }
+      
     }
   };
   

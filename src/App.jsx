@@ -9,6 +9,7 @@ import VideoPlayer from "./VideoPlayer";
 /** @type { import("react").FC } */
 export default function App() {
   const [theme, setTheme] = useState("dark");
+  const [provider, setProvider] = useState("piped")
 
   const toggleTheme = () =>
     theme === "dark" ? setTheme("light") : setTheme("dark");
@@ -16,9 +17,9 @@ export default function App() {
   return (
     <Theme appearance={theme} accentColor="red">
       <Flex direction="column" gap={{ initial: "2", md: "4" }}>
-        <Header toggleTheme={toggleTheme} />
+        <Header toggleTheme={toggleTheme} setProvider={setProvider}/>
         <Container size={{ initial: "1", lg: "3" }}>
-          <VideoPlayer />
+          <VideoPlayer provider={provider} />
         </Container>
       </Flex>
     </Theme>

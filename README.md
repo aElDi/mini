@@ -1,14 +1,19 @@
-![Logo](./public/images/banner.png)
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="./public/images/banner@light.png">
+  <source media="(prefers-color-scheme: light)" srcset="./public/images/banner@dark.png">
+  <img alt="Logo" src="./public/images/banner@light.png">
+</picture>
 
 # **MINI**
 
-A lightweight minimalistic player for watching YouTube videos through a proxy. MINI uses the cobalt.tools API to get a proxied video stream
+A lightweight minimalistic player for watching YouTube videos through a proxy. MINI uses the piped.video and cobalt.tools API to get a proxied video stream
 
 ## Known issues
 
-- https://github.com/aElDi/mini/issues/1
-> [!CAUTION]
-> [Cobalt.tools API](https://github.com/imputnet/cobalt/blob/current/docs/api.md#get-apistream) returns a stream for downloading, not a whole file, which makes it impossible to get its duration, control rewind with `Content-Range`. This can be fixed by downloading the video before viewing, but then the service needs a backend. I will try to fix it using [piped.video](https://piped.video/trending).
+- ~~https://github.com/aElDi/mini/issues/1~~
+    **Solved**
+    Just use a `piped` provider 💗
+
 
 ## Local Development
 
