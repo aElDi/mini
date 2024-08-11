@@ -18,7 +18,7 @@ export default function Header({ toggleTheme, setProvider }) {
         py={{ initial: "1", lg: "2" }}
       >
         <Flex direction="row" align="center" gap="4">
-          <img src="./icons/Logo x64.svg" width={32} height={32} />
+          <img alt="logo" src="./icons/Logo x64.svg" width={32} height={32} />
           <Heading>MINI</Heading>
         </Flex>
         <Flex direction="row" gap={{ initial: "2", lg: "4" }} align="center">
