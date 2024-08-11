@@ -1,7 +1,7 @@
-import { useState } from "react";
-import axios from "axios";
+import { useRef, useState } from "react";
+import { cobaltFetchVideo, pipedFetchVideo } from "./lib/api";
 import { Box, Flex, Spinner, TextField, Text } from "@radix-ui/themes";
-import { MediaPlayer, MediaProvider } from "@vidstack/react";
+import { MediaPlayer, MediaProvider, useMediaPlayer } from "@vidstack/react";
 import { PlayIcon } from "@radix-ui/react-icons";
 import {
   defaultLayoutIcons,
@@ -10,48 +10,50 @@ import {
 import "@vidstack/react/player/styles/default/theme.css";
 import "@vidstack/react/player/styles/default/layouts/video.css";
 
-const fetchVideo = async (link) => {
-  const params = {
-    method: "POST",
-    url: "https://api.cobalt.tools/api/json",
-    headers: { "content-type": "application/json", Accept: "application/json" },
-    data: { url: link },
-  };
-  return await axios.request(params);
-};
-
 /** @type { import("react").FC } */
 export default function VideoPlayer() {
   const [error, setError] = useState(null);
-  const [videoSrc, setVideoSrc] = useState();
-  const [videoLink, setVideoLink] = useState();
+  const [video, setVideo] = useState(null);
+  const [videoLink, setVideoLink] = useState("");
   const [isLoading, setLoading] = useState(false);
 
-  const loadVideo = async (link) => {
+  // Set as default method
+  const loadVideoPiped = async (link) => {
     try {
-      const res = await fetchVideo(link);
-      setVideoSrc(res.data.url);
-      setLoading(false);
+      const video = await pipedFetchVideo(link);
+      setVideo(video);
+      
+    } catch (error) {
+      console.log(error);
+      setError(error.response.data.message);
+    }
+    setLoading(false);
+  };
+
+  const loadVideoCobalt = async (link) => {
+    try {
+      const srcset = await cobaltFetchVideo(link);
+      setVideo({src: srcset});
     } catch (error) {
       setError(error.response.data.text);
-      setLoading(false);
     }
+    setLoading(false);
   };
 
   const keyHandler = (event) => {
     setError(null);
-    if (event.key === "Enter") {
+    if (event.key === "Enter" && videoLink) {
       setLoading(true);
-      loadVideo(videoLink);
+      loadVideoPiped(videoLink);
     }
   };
-
+  
   return (
     <Flex direction="column" gap="5">
       <TextField.Root
         variant="soft"
         color="gray"
-        size='3'
+        size="3"
         placeholder="Input youtube video link..."
         onKeyDown={keyHandler}
         onInput={(event) => setVideoLink(event.target.value)}
@@ -72,16 +74,17 @@ export default function VideoPlayer() {
         <Text color="red" dangerouslySetInnerHTML={{ __html: error }}></Text>
       )}
 
-      {videoSrc && (
+      {video && (
         <MediaPlayer
           style={{ borderRadius: "12px" }}
-          src={{ src: videoSrc, type: "video/mp4" }}
+          src={video.src}
+          title={video.title && ""}
           viewType="video"
           crossOrigin
           playsInline
         >
           <MediaProvider />
-          <DefaultVideoLayout icons={defaultLayoutIcons} />
+          <DefaultVideoLayout thumbnails={video.thumbnail && ""} icons={defaultLayoutIcons} />
         </MediaPlayer>
       )}
     </Flex>
