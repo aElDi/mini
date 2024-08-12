@@ -2,7 +2,6 @@ import axios from "axios";
 
 const PIPED_PROVIDERS = [
   "https://pipedapi.r4fo.com/",
-  "https://pipedapi.in.projectsegfau.lt",
   "https://pipedapi.smnz.de",
   "https://api.piped.yt",
 ];

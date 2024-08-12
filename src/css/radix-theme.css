@@ -126,10 +126,10 @@
 }
 
 .default-box {
-  background-color: var(--gray-3);
+  background-color: var(--gray-2);
   border-radius: 8px;
   border-width: 1.5px;
-  border-color: var(--gray-5);
+  border-color: var(--gray-4);
   border-style: solid;
 }
 
