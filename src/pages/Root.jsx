@@ -1,7 +1,5 @@
 import { Container, Theme, Flex } from "@radix-ui/themes";
-import "@radix-ui/themes/styles.css";
-import "../css/clash-display.css";
-import "../css/radix-theme.css";
+
 import { useState } from "react";
 import Header from "../components/Header";
 import VideoPlayer from "../components/VideoPlayer";
