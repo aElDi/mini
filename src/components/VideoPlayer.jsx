@@ -1,14 +1,7 @@
-import { useState } from "react";
-import { cobaltFetchVideo, pipedFetchVideo } from "./lib/api";
-import {
-  Box,
-  Flex,
-  Spinner,
-  TextField,
-  Text,
-  Tooltip
-} from "@radix-ui/themes";
-import { MediaPlayer, MediaProvider } from "@vidstack/react";
+import { useEffect, useState } from "react";
+import { cobaltFetchVideo, getVideoId, pipedFetchVideo } from "../lib/api";
+import { Box, Flex, Spinner, TextField, Text, Tooltip } from "@radix-ui/themes";
+import { MediaPlayer, MediaProvider, Poster } from "@vidstack/react";
 import { PlayIcon } from "@radix-ui/react-icons";
 import {
   defaultLayoutIcons,
@@ -17,6 +10,7 @@ import {
 import "@vidstack/react/player/styles/default/theme.css";
 import "@vidstack/react/player/styles/default/layouts/video.css";
 import Info from "./Info";
+import { useSearchParams } from "react-router-dom";
 
 /** @type { import("react").FC } */
 export default function VideoPlayer({ provider }) {
@@ -24,11 +18,12 @@ export default function VideoPlayer({ provider }) {
   const [video, setVideo] = useState(null);
   const [videoLink, setVideoLink] = useState("");
   const [isLoading, setLoading] = useState(false);
+  const [searchParams, setSearchParams] = useSearchParams();
 
   // Set as default method
-  const loadVideoPiped = async (link) => {
+  const loadVideoPiped = async (videoId) => {
     try {
-      const video = await pipedFetchVideo(link);
+      const video = await pipedFetchVideo(videoId);
       setVideo(video);
     } catch (error) {
       console.log(error);
@@ -37,9 +32,9 @@ export default function VideoPlayer({ provider }) {
     setLoading(false);
   };
 
-  const loadVideoCobalt = async (link) => {
+  const loadVideoCobalt = async (videoId) => {
     try {
-      const srcset = await cobaltFetchVideo(link);
+      const srcset = await cobaltFetchVideo(videoId);
       setVideo({ src: srcset });
     } catch (error) {
       setError(error.response.data.text);
@@ -47,20 +42,33 @@ export default function VideoPlayer({ provider }) {
     setLoading(false);
   };
 
-  const keyHandler = (event) => {
-    setError(null);
-    if (event.key === "Enter" && videoLink) {
-      setLoading(true);
-      if (provider === "piped") {
-        loadVideoPiped(videoLink);
-      } else if (provider === "cobalt") {
-        loadVideoCobalt(videoLink);
-      }
+  const loadVideo = (videoId) => {
+    setLoading(true);
+    const v = videoId;
+    setSearchParams({ v });
+    if (provider === "piped") {
+      loadVideoPiped(v);
+    } else if (provider === "cobalt") {
+      loadVideoCobalt(v);
     }
   };
 
+  const keyHandler = (event) => {
+    setError(null);
+    if (event.key === "Enter" && videoLink) {
+      loadVideo(getVideoId(videoLink));
+    }
+  };
+
+  useEffect(() => {
+    if (searchParams.has("v")) {
+      const videoId = searchParams.get("v");
+      loadVideo(videoId);
+    }
+  }, [searchParams]);
+
   return (
-    <Flex direction="column" gap={{initial: '1', md: '3'}}>
+    <Flex direction="column" gap={{ initial: "1", md: "3" }}>
       <Tooltip content="Paste link to YouTube video and press Enter">
         <TextField.Root
           variant="soft"
@@ -95,19 +103,20 @@ export default function VideoPlayer({ provider }) {
         <MediaPlayer
           style={{ borderRadius: "12px" }}
           src={video.src}
-          title={video.title && ""}
+          title={video.title}
           viewType="video"
           crossOrigin
           playsInline
         >
-          <MediaProvider />
+          <MediaProvider>
+            <Poster className="vds-poster" alt="Video thumbnail" src={video.thumbnail}/>
+          </MediaProvider>
           <DefaultVideoLayout
-            thumbnails={video.thumbnail && ""}
             icons={defaultLayoutIcons}
           />
         </MediaPlayer>
       ) : (
-        <Info/>
+        <Info />
       )}
     </Flex>
   );

@@ -6,9 +6,9 @@ const PIPED_PROVIDERS = [
   "https://api.piped.yt",
 ];
 
-const VIDEO_ID_REGEX = new RegExp(
-  /youtu(?:.*\/v\/|.*v\=|\.be\/)([A-Za-z0-9_\-]{11})/
-);
+export const getVideoId = (link) => {
+  return /youtu(?:.*\/v\/|.*v\=|\.be\/)([A-Za-z0-9_\-]{11})/.exec(link)[1];
+}
 
 // This is needed because some piped providers don't work all the time
 const selectPipedProvider = async () => {
@@ -24,21 +24,20 @@ const selectPipedProvider = async () => {
   }
 };
 
-export const cobaltFetchVideo = async (link) => {
+export const cobaltFetchVideo = async (videoId) => {
   const params = {
     method: "POST",
     url: "https://api.cobalt.tools/api/json",
     headers: { "content-type": "application/json", Accept: "application/json" },
-    data: { url: link },
+    data: { url: "https://www.youtube.com/watch?v=" + videoId },
   };
   const res = await axios.request(params);
   const srcset = { src: res.data.url, type: "video/mp4" };
   return [srcset];
 };
 
-export const pipedFetchVideo = async (link) => {
+export const pipedFetchVideo = async (videoId) => {
   const provider = await selectPipedProvider();
-  const videoId = link.match(VIDEO_ID_REGEX)[1];
   const res = await axios.get(provider + "streams/" + videoId);
   console.log(res);
   return {
