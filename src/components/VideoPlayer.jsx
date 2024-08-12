@@ -13,9 +13,9 @@ import { useSearchParams } from "react-router-dom";
 /** @type { import("react").FC } */
 export default function VideoPlayer({ provider }) {
   const [error, setError] = useState(null);
+  const [isLoading, setLoading] = useState(false);
   const [video, setVideo] = useState(null);
   const [videoLink, setVideoLink] = useState("");
-  const [isLoading, setLoading] = useState(false);
   const [searchParams, setSearchParams] = useSearchParams();
 
   // Set as default method

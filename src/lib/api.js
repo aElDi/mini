@@ -2,8 +2,12 @@ import axios from "axios";
 
 const PIPED_PROVIDERS = [
   "https://pipedapi.r4fo.com/",
+  "https://api.piped.privacydev.net/",
   "https://pipedapi.smnz.de",
   "https://api.piped.yt",
+  'https://pipedapi.drgns.space/',
+  'https://pipedapi.ngn.tf/',
+  'https://pipedapi.darkness.services/'
 ];
 
 export const getVideoId = (link) => {
