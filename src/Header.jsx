@@ -22,10 +22,14 @@ export default function Header({ toggleTheme, setProvider }) {
           <Heading>MINI</Heading>
         </Flex>
         <Flex direction="row" gap={{ initial: "2", lg: "4" }} align="center">
-          <SegmentedControl.Root defaultValue="piped" onValueChange={setProvider}>
+          <SegmentedControl.Root
+            defaultValue="piped"
+            onValueChange={setProvider}
+          >
             <SegmentedControl.Item value="piped">Piped</SegmentedControl.Item>
             <SegmentedControl.Item value="cobalt">Cobalt</SegmentedControl.Item>
           </SegmentedControl.Root>
+
           <IconButton
             size={{ initial: "2", md: "3" }}
             variant="soft"
