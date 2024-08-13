@@ -1,24 +1,24 @@
 import axios from "axios";
 
 const PIPED_PROVIDERS = [
-  "https://pipedapi.r4fo.com/",
-  "https://api.piped.privacydev.net/",
+  "https://pipedapi.r4fo.com",
+  "https://api.piped.privacydev.net",
   "https://pipedapi.smnz.de",
   "https://api.piped.yt",
-  'https://pipedapi.drgns.space/',
-  'https://pipedapi.ngn.tf/',
-  'https://pipedapi.darkness.services/'
+  "https://pipedapi.drgns.space",
+  "https://pipedapi.ngn.tf",
 ];
 
-export const getVideoId = (link) => {
-  return /youtu(?:.*\/v\/|.*v\=|\.be\/)([A-Za-z0-9_\-]{11})/.exec(link)[1];
-}
+const YOUTUBE_REGEX = /youtu(?:.*\/v\/|.*v\=|\.be\/)([A-Za-z0-9_\-]{11})/;
+
+export const getVideoId = (link) => YOUTUBE_REGEX.exec(link)[1];
+export const testVideoId = (link) => YOUTUBE_REGEX.test(link);
 
 // This is needed because some piped providers don't work all the time
 const selectPipedProvider = async () => {
   for (let provider of PIPED_PROVIDERS) {
     try {
-      const ping = await axios.get(provider + "streams/jNQXAC9IVRw");
+      const ping = await axios.head(provider + "/healthcheck");
       if (ping.status === 200) {
         return provider;
       }
@@ -37,13 +37,12 @@ export const cobaltFetchVideo = async (videoId) => {
   };
   const res = await axios.request(params);
   const srcset = { src: res.data.url, type: "video/mp4" };
-  return [srcset];
+  return { src: [srcset] };
 };
 
 export const pipedFetchVideo = async (videoId) => {
   const provider = await selectPipedProvider();
-  const res = await axios.get(provider + "streams/" + videoId);
-  console.log(res);
+  const res = await axios.get(provider + "/streams/" + videoId);
   return {
     title: res.data.title,
     src: res.data.hls,

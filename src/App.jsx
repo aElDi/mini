@@ -4,7 +4,7 @@ import "./global.css"
 
 const router = createBrowserRouter([{
   path: "/",
-  element: <Root/>,
+  element: (<Root/>),
 }])
 
 /** @type { import("react").FC } */

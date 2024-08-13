@@ -133,6 +133,10 @@
   border-style: solid;
 }
 
+.rt-TextFieldRoot{
+  width: 100%;
+}
+
 img{
   border-radius: 4px;
 }
