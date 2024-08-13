@@ -6,7 +6,6 @@ import {
   Text,
   Link,
   Heading,
-  Blockquote,
 } from "@radix-ui/themes";
 
 const responsiveGap = { initial: "2", md: "3" };
@@ -62,23 +61,24 @@ export default function Info() {
               <Text weight="medium" size="5">
                 Cobalt.tools
               </Text>
-              <Blockquote color="gray">
+              <Text color="gray">
                 API for downloading videos from youtube. Since it returns a
                 stream for downloading without Partial Content support,
                 rewinding is not possible
-              </Blockquote>
+              </Text>
             </Flex>
             <Flex direction='column' gap='1'>
               <Text weight="medium" size="5">
                 Piped.video
               </Text>
-              <Blockquote color="gray">
+              <Text color="gray">
                 A free platform for anonymous YouTube browsing. Used by default. You can change this with the top right switch
-              </Blockquote>
+              </Text>
             </Flex>
           </Flex>
         </Flex>
       </Box>
+      
     </Grid>
   );
 }

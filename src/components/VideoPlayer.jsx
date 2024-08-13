@@ -19,6 +19,7 @@ export default function VideoPlayer({ provider }) {
   const [searchParams, setSearchParams] = useSearchParams();
 
   const loadVideo = async (videoId) => {
+    setError(false);
     setLoading(true);
     setSearchParams({ v: videoId });
     try {
@@ -41,6 +42,12 @@ export default function VideoPlayer({ provider }) {
     }
   }, [searchParams]);
 
+  const handleKeyDown = async (ev)=>{
+    if(ev.keyCode ===13){ // enter button
+     await loadVideo(getVideoId(videoLink))
+    }
+ }
+
   return (
     <Flex direction="column" gap={{ initial: "2", md: "3" }}>
       <Flex
@@ -55,6 +62,7 @@ export default function VideoPlayer({ provider }) {
           size="3"
           placeholder="Input youtube video link..."
           onInput={(event) => setVideoLink(event.target.value)}
+          onKeyDown={handleKeyDown}
         >
           <TextField.Slot>
             <PlayIcon />
