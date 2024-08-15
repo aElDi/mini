@@ -16,7 +16,7 @@ export default function Root() {
       <Flex direction="column" gap={{ initial: "3", md: "4" }}>
         <Header toggleTheme={toggleTheme} setProvider={setProvider} />
         <Container size={{ initial: "1", lg: "3" }}>
-          <VideoPlayer provider={provider}/>
+          <VideoPlayer provider={provider} setProvider={setProvider}/>
         </Container>
       </Flex>
     </Theme>

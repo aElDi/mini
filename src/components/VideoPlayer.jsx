@@ -17,7 +17,7 @@ import Info from "./Info";
 import { useSearchParams } from "react-router-dom";
 
 /** @type { import("react").FC } */
-export default function VideoPlayer({ provider }) {
+export default function VideoPlayer({ provider, setProvider }) {
   const [error, setError] = useState(null);
   const [isLoading, setLoading] = useState(false);
   const [video, setVideo] = useState(null);
@@ -27,7 +27,7 @@ export default function VideoPlayer({ provider }) {
   const loadVideo = async (videoId) => {
     setError(false);
     setLoading(true);
-    setSearchParams({ v: videoId });
+    setSearchParams({ v: videoId, provider });
     try {
       let video = {};
       switch (provider) {
@@ -53,6 +53,12 @@ export default function VideoPlayer({ provider }) {
 
   useEffect(() => {
     (async () => {
+      if (searchParams.has("provider")){
+        const prv = searchParams.get("provider")
+        if (['piped', 'invidious', 'cobalt'].includes(prv)){
+          setProvider(searchParams.get("provider"));
+        }
+      }
       if (searchParams.has("v")) {
         const videoId = searchParams.get("v");
         setVideoLink("https://youtu.be/"+videoId);
