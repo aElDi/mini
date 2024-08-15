@@ -27,13 +27,10 @@ export default function VideoPlayer({ provider }) {
   const loadVideo = async (videoId) => {
     setError(false);
     setLoading(true);
-    const prv = searchParams.has("provider")
-      ? searchParams.get("provider")
-      : provider;
-    setSearchParams({ v: videoId, provider: prv });
+    setSearchParams({ v: videoId, provider });
     try {
       let video = {};
-      switch (prv) {
+      switch (provider) {
         case "piped":
           video = await pipedFetchVideo(videoId);
           break;
