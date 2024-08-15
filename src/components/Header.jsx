@@ -27,6 +27,7 @@ export default function Header({ toggleTheme, setProvider }) {
             onValueChange={setProvider}
           >
             <SegmentedControl.Item value="piped">Piped</SegmentedControl.Item>
+            <SegmentedControl.Item value="invidious">Invidious</SegmentedControl.Item>
             <SegmentedControl.Item value="cobalt">Cobalt</SegmentedControl.Item>
           </SegmentedControl.Root>
 

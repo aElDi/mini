@@ -9,6 +9,11 @@ const PIPED_PROVIDERS = [
   "https://pipedapi.ngn.tf",
 ];
 
+const INVIDIOUS_PROVIDERS = [
+  "https://invidious.jing.rocks/api/v1",
+  "https://invidious.reallyaweso.me/api/v1",
+];
+
 const YOUTUBE_REGEX = /youtu(?:.*\/v\/|.*v\=|\.be\/)([A-Za-z0-9_\-]{11})/;
 
 export const getVideoId = (link) => YOUTUBE_REGEX.exec(link)[1];
@@ -29,6 +34,7 @@ const selectPipedProvider = async () => {
 };
 
 export const cobaltFetchVideo = async (videoId) => {
+  /**@type {import("axios").AxiosRequestConfig} */
   const params = {
     method: "POST",
     url: "https://api.cobalt.tools/api/json",
@@ -47,5 +53,14 @@ export const pipedFetchVideo = async (videoId) => {
     title: res.data.title,
     src: res.data.hls,
     thumbnail: res.data.thumbnailUrl,
+  };
+};
+
+export const invidiousFetchVideo = async (videoId) => {
+  const res = await axios.get(INVIDIOUS_PROVIDERS[0] + "/videos/" + videoId + "?local=true");
+  return {
+    title: res.data.title,
+    src: [{ src: res.data.dashUrl, type: "application/dash+xml" }],
+    thumbnail: res.data.videoThumbnails[0].url,
   };
 };

@@ -1,5 +1,10 @@
 import { useEffect, useState } from "react";
-import { cobaltFetchVideo, getVideoId, pipedFetchVideo } from "../lib/api";
+import {
+  cobaltFetchVideo,
+  getVideoId,
+  invidiousFetchVideo,
+  pipedFetchVideo,
+} from "../lib/api";
 import { Flex, TextField, Button, Code, Box } from "@radix-ui/themes";
 import { MediaPlayer, MediaProvider, Poster } from "@vidstack/react";
 import { PlayIcon } from "@radix-ui/react-icons";
@@ -23,10 +28,20 @@ export default function VideoPlayer({ provider }) {
     setLoading(true);
     setSearchParams({ v: videoId });
     try {
-      const video =
-        provider === "piped"
-          ? await pipedFetchVideo(videoId)
-          : await cobaltFetchVideo(videoId);
+      let video = {};
+      switch (provider) {
+        case "piped":
+          video = await pipedFetchVideo(videoId);
+          break;
+        case "cobalt":
+          video = await cobaltFetchVideo(videoId);
+          break;
+        case "invidious":
+          video = await invidiousFetchVideo(videoId);
+          break;
+        default:
+          break;
+      }
       setVideo(video);
     } catch (error) {
       console.log(error);
@@ -35,18 +50,21 @@ export default function VideoPlayer({ provider }) {
     setLoading(false);
   };
 
-  useEffect(async () => {
-    if (searchParams.has("v")) {
-      const videoId = searchParams.get("v");
-      await loadVideo(videoId);
-    }
+  useEffect(() => {
+    (async () => {
+      if (searchParams.has("v")) {
+        const videoId = searchParams.get("v");
+        await loadVideo(videoId);
+      }
+    })();
   }, [searchParams]);
 
-  const handleKeyDown = async (ev)=>{
-    if(ev.keyCode ===13){ // enter button
-     await loadVideo(getVideoId(videoLink))
+  const handleKeyDown = async (ev) => {
+    if (ev.keyCode === 13) {
+      // enter button
+      await loadVideo(getVideoId(videoLink));
     }
- }
+  };
 
   return (
     <Flex direction="column" gap={{ initial: "2", md: "3" }}>
@@ -68,10 +86,10 @@ export default function VideoPlayer({ provider }) {
             <PlayIcon />
           </TextField.Slot>
         </TextField.Root>
-        <Box display={{initial: "none", md: "block"}}>
+        <Box display={{ initial: "none", md: "block" }}>
           <Button
             variant="soft"
-            size='3'
+            size="3"
             loading={isLoading}
             onClick={async () => loadVideo(getVideoId(videoLink))}
           >
