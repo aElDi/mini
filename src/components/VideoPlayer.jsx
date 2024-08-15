@@ -11,6 +11,7 @@ import { PlayIcon } from "@radix-ui/react-icons";
 import {
   defaultLayoutIcons,
   DefaultVideoLayout,
+  DefaultAudioLayout,
 } from "@vidstack/react/player/layouts/default";
 import Info from "./Info";
 import { useSearchParams } from "react-router-dom";
@@ -54,6 +55,7 @@ export default function VideoPlayer({ provider }) {
     (async () => {
       if (searchParams.has("v")) {
         const videoId = searchParams.get("v");
+        setVideoLink("https://youtu.be/"+videoId);
         await loadVideo(videoId);
       }
     })();
@@ -79,6 +81,7 @@ export default function VideoPlayer({ provider }) {
           color="gray"
           size="3"
           placeholder="Input youtube video link..."
+          value={videoLink}
           onInput={(event) => setVideoLink(event.target.value)}
           onKeyDown={handleKeyDown}
         >
@@ -121,6 +124,7 @@ export default function VideoPlayer({ provider }) {
             />
           </MediaProvider>
           <DefaultVideoLayout icons={defaultLayoutIcons} />
+          <DefaultAudioLayout icons={defaultLayoutIcons} />
         </MediaPlayer>
       ) : (
         <Info />

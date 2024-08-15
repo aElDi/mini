@@ -10,8 +10,10 @@ const PIPED_PROVIDERS = [
 ];
 
 const INVIDIOUS_PROVIDERS = [
+  "https://iv.ggtyler.dev/api/v1",
   "https://invidious.jing.rocks/api/v1",
-  "https://invidious.reallyaweso.me/api/v1",
+  "https://invidious.privacyredirect.com/api/v1",
+  "https://invidious.perennialte.ch/api/v1",
 ];
 
 const YOUTUBE_REGEX = /youtu(?:.*\/v\/|.*v\=|\.be\/)([A-Za-z0-9_\-]{11})/;
@@ -24,6 +26,19 @@ const selectPipedProvider = async () => {
   for (let provider of PIPED_PROVIDERS) {
     try {
       const ping = await axios.head(provider + "/healthcheck");
+      if (ping.status === 200) {
+        return provider;
+      }
+    } catch (error) {
+      continue;
+    }
+  }
+};
+
+const selectInvidiousProvider = async () => {
+  for (let provider of INVIDIOUS_PROVIDERS) {
+    try {
+      const ping = await axios.head(provider + "/trending");
       if (ping.status === 200) {
         return provider;
       }
@@ -57,10 +72,13 @@ export const pipedFetchVideo = async (videoId) => {
 };
 
 export const invidiousFetchVideo = async (videoId) => {
-  const res = await axios.get(INVIDIOUS_PROVIDERS[0] + "/videos/" + videoId + "?local=true");
+  const provider = await selectInvidiousProvider();
+  const res = await axios.get(provider + "/videos/" + videoId + "?local=true");
   return {
     title: res.data.title,
-    src: [{ src: res.data.dashUrl, type: "application/dash+xml" }],
+    src: [
+      { src: res.data.dashUrl + "?local=true", type: "application/dash+xml" },
+    ],
     thumbnail: res.data.videoThumbnails[0].url,
   };
 };

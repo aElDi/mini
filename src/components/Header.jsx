@@ -14,10 +14,17 @@ export default function Header({ toggleTheme, setProvider }) {
       <Flex
         direction="row"
         justify="between"
-        px={{ initial: "2", lg: "4" }}
+        px={{ initial: "1", lg: "4" }}
         py={{ initial: "1", lg: "2" }}
       >
-        <Flex direction="row" align="center" gap="4">
+        <Flex
+          direction="row"
+          align="center"
+          gap={{initial: '2', md: "4"}}
+          onClick={() => {
+            window.location.href = "/";
+          }}
+        >
           <img alt="logo" src="./icons/Logo x64.svg" width={32} height={32} />
           <Heading>MINI</Heading>
         </Flex>
@@ -25,6 +32,7 @@ export default function Header({ toggleTheme, setProvider }) {
           <SegmentedControl.Root
             defaultValue="piped"
             onValueChange={setProvider}
+            size={{initial: '1', md: '2'}}
           >
             <SegmentedControl.Item value="piped">Piped</SegmentedControl.Item>
             <SegmentedControl.Item value="invidious">Invidious</SegmentedControl.Item>
