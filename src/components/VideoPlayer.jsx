@@ -17,7 +17,7 @@ import Info from "./Info";
 import { useSearchParams } from "react-router-dom";
 
 /** @type { import("react").FC } */
-export default function VideoPlayer({ provider, setProvider }) {
+export default function VideoPlayer({ provider }) {
   const [error, setError] = useState(null);
   const [isLoading, setLoading] = useState(false);
   const [video, setVideo] = useState(null);
@@ -27,10 +27,13 @@ export default function VideoPlayer({ provider, setProvider }) {
   const loadVideo = async (videoId) => {
     setError(false);
     setLoading(true);
-    setSearchParams({ v: videoId, provider });
+    const prv = searchParams.has("provider")
+      ? searchParams.get("provider")
+      : provider;
+    setSearchParams({ v: videoId, provider: prv });
     try {
       let video = {};
-      switch (provider) {
+      switch (prv) {
         case "piped":
           video = await pipedFetchVideo(videoId);
           break;
@@ -53,15 +56,9 @@ export default function VideoPlayer({ provider, setProvider }) {
 
   useEffect(() => {
     (async () => {
-      if (searchParams.has("provider")){
-        const prv = searchParams.get("provider")
-        if (['piped', 'invidious', 'cobalt'].includes(prv)){
-          setProvider(searchParams.get("provider"));
-        }
-      }
       if (searchParams.has("v")) {
         const videoId = searchParams.get("v");
-        setVideoLink("https://youtu.be/"+videoId);
+        setVideoLink("https://youtu.be/" + videoId);
         await loadVideo(videoId);
       }
     })();
