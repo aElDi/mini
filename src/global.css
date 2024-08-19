@@ -1,6 +1,6 @@
 @import "@vidstack/react/player/styles/default/theme.css";
 @import "@vidstack/react/player/styles/default/layouts/video.css";
 @import "@radix-ui/themes/styles.css";
-@import "./css/clash-display.css";
-@import "./css/radix-theme.css";
+@import "@/css/clash-display.css";
+@import "@/css/radix-theme.css";
 

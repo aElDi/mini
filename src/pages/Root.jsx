@@ -1,8 +1,8 @@
 import { Container, Theme, Flex} from "@radix-ui/themes";
 
 import { useState } from "react";
-import Header from "../components/Header";
-import VideoPlayer from "../components/VideoPlayer";
+import Header from "@/components/Header";
+import VideoPlayer from "@/components/VideoPlayer";
 
 export default function Root() {
   const [theme, setTheme] = useState("dark");

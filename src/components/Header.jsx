@@ -4,7 +4,7 @@ import {
   Heading,
   IconButton,
   Section,
-  SegmentedControl,
+  Select,
 } from "@radix-ui/themes";
 
 /** @type { import("react").FC } */
@@ -20,7 +20,7 @@ export default function Header({ toggleTheme, setProvider }) {
         <Flex
           direction="row"
           align="center"
-          gap={{initial: '2', md: "4"}}
+          gap={{ initial: "2", md: "4" }}
           onClick={() => {
             window.location.href = "/";
           }}
@@ -29,15 +29,18 @@ export default function Header({ toggleTheme, setProvider }) {
           <Heading>MINI</Heading>
         </Flex>
         <Flex direction="row" gap={{ initial: "2", lg: "4" }} align="center">
-          <SegmentedControl.Root
+          <Select.Root
             defaultValue="piped"
             onValueChange={setProvider}
-            size={{initial: '1', md: '2'}}
+            size={{initial: "2", md: "3"}}
           >
-            <SegmentedControl.Item value="piped">Piped</SegmentedControl.Item>
-            <SegmentedControl.Item value="invidious">Invidious</SegmentedControl.Item>
-            <SegmentedControl.Item value="cobalt">Cobalt</SegmentedControl.Item>
-          </SegmentedControl.Root>
+            <Select.Trigger/>
+            <Select.Content>
+              <Select.Item value="piped">Piped</Select.Item>
+              <Select.Item value="invidious">Invidious</Select.Item>
+              <Select.Item value="cobalt">Cobalt</Select.Item>
+            </Select.Content>
+          </Select.Root>
 
           <IconButton
             size={{ initial: "2", md: "3" }}

@@ -1,10 +1,5 @@
 import { useEffect, useState } from "react";
-import {
-  cobaltFetchVideo,
-  getVideoId,
-  invidiousFetchVideo,
-  pipedFetchVideo,
-} from "../lib/api";
+import { getVideoId } from "@/lib/utils";
 import { Flex, TextField, Button, Code, Box } from "@radix-ui/themes";
 import { MediaPlayer, MediaProvider, Poster } from "@vidstack/react";
 import { PlayIcon } from "@radix-ui/react-icons";
@@ -30,15 +25,19 @@ export default function VideoPlayer({ provider }) {
     setSearchParams({ v: videoId, provider });
     try {
       let video = {};
+      let fetcher;
       switch (provider) {
         case "piped":
-          video = await pipedFetchVideo(videoId);
+          fetcher = await import("../lib/piped");
+          video = await fetcher.fetchVideo(videoId);
           break;
         case "cobalt":
-          video = await cobaltFetchVideo(videoId);
+          fetcher = await import("../lib/cobalt")
+          video = await fetcher.fetchVideo(videoId);
           break;
         case "invidious":
-          video = await invidiousFetchVideo(videoId);
+          fetcher = await import("../lib/invidious")
+          video = await fetcher.fetchVideo(videoId);
           break;
         default:
           break;
