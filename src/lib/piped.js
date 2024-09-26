@@ -12,7 +12,7 @@ const INSTANCES = [
 const selectInstance = async () => {
     for (let instance of INSTANCES) {
       try {
-        const ping = await axios.head(instance + "/healthcheck");
+        const ping = await axios.head(instance + "/streams/jNQXAC9IVRw");
         if (ping.status === 200) {
           return instance;
         }

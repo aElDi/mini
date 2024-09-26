@@ -1,10 +1,10 @@
 import axios from "axios";
 
 const INSTANCES = [
-  "https://iv.ggtyler.dev/api/v1",
+  "https://inv.nadeko.net/api/v1",
+  "https://invidious.nerdvpn.de/api/v1",
   "https://invidious.jing.rocks/api/v1",
   "https://invidious.privacyredirect.com/api/v1",
-  "https://invidious.perennialte.ch/api/v1",
 ];
 
 const selectInstance = async () => {
